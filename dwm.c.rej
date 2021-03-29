@@ -1,24 +1,13 @@
 --- dwm.c
 +++ dwm.c
-@@ -57,6 +58,21 @@
- #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
- #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
- #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
-+#define XRDB_LOAD_COLOR(R,V)    if (XrmGetResource(xrdb, R, NULL, &type, &value) == True) { \
-+                                  if (value.addr != NULL && strnlen(value.addr, 8) == 7 && value.addr[0] == '#') { \
-+                                    int i = 1; \
-+                                    for (; i <= 6; i++) { \
-+                                      if (value.addr[i] < 48) break; \
-+                                      if (value.addr[i] > 57 && value.addr[i] < 65) break; \
-+                                      if (value.addr[i] > 70 && value.addr[i] < 97) break; \
-+                                      if (value.addr[i] > 102) break; \
-+                                    } \
-+                                    if (i == 7) { \
-+                                      strncpy(V, value.addr, 7); \
-+                                      V[7] = '\0'; \
-+                                    } \
-+                                  } \
-+                                }
+@@ -810,9 +911,7 @@ drawbar(Monitor *m)
  
- /* enums */
- enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+ 	/* draw status first so it can be overdrawn by tags later */
+ 	if (m == selmon) { /* status is only drawn on selected monitor */
+-		drw_setscheme(drw, scheme[SchemeNorm]);
+-		sw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
+-		drw_text(drw, m->ww - sw, 0, sw, bh, 0, stext, 0);
++		sw = m->ww - drawstatusbar(m, bh, stext);
+ 	}
+ 
+ 	for (c = m->clients; c; c = c->next) {
