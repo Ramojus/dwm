@@ -83,15 +83,18 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
+// MOD+j/k - focus down / up in the stack
+// MOD+tab - focus prev in stack
+// MOD+a - focus top of the stack
+// MOD+z - focus bottom of the stack
+// add shift to move clients
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD, 44,       ACTION##stack, {.i = INC(+1) } }, \
 	{ MOD, 45,       ACTION##stack, {.i = INC(-1) } }, \
 	{ MOD, 23,       ACTION##stack, {.i = PREVSEL } }, \
-	{ MOD, 24,       ACTION##stack, {.i = 0 } }, \
-	{ MOD, 38,     ACTION##stack, {.i = -1 } },
+	{ MOD, 38,       ACTION##stack, {.i = 0 } }, \
+	{ MOD, 52,       ACTION##stack, {.i = -1 } },
 
-// MOD+q - top of the stack
-// MOD+a - bottom of the stack
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -124,7 +127,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask|ShiftMask, 46, moveresize,     {.v = "0x 0y 25w 0h" } },   // l
 	{ MODKEY|ControlMask|ShiftMask, 43, moveresize,     {.v = "0x 0y -25w 0h" } },  // h
 	{ MODKEY,               	9,	   	zoom,           {0} },             	// Escape
-	{ MODKEY,               	23,    	view,           {0} },             	// Tab
+	//{ MODKEY,               	23,    	view,           {0} },             	// Tab
 	{ MODKEY,			    	24,    	killclient,     {0} },             	// q
 	{ MODKEY,               	28,    	setlayout,      {.v = &layouts[0]} }, // t
 	{ MODKEY,               	41,    	setlayout,      {.v = &layouts[1]} }, // f
